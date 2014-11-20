@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -20,24 +22,26 @@ public class MyCustomView extends View implements OnTouchListener {
 	private float radius;
 	private float touchX;
 	private float touchY;
+	private int screenWidth;
+	private int screenHeight;
 
 	public MyCustomView(Context context) {
 		super(context);
 		init();
+		getScreenMetrics(context);
 	}
 
 	public MyCustomView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
-
+		getScreenMetrics(context);
 		checkAttrs(context, attrs);
 	}
 
 	// Check for available attributes
 	private void checkAttrs(Context context, AttributeSet attrs) {
 
-		TypedArray attrsArr = context.obtainStyledAttributes(attrs,
-				R.styleable.MyCustomView);
+		TypedArray attrsArr = context.obtainStyledAttributes(attrs, R.styleable.MyCustomView);
 
 		final int allAttrsNum = attrsArr.getIndexCount();
 
@@ -82,6 +86,15 @@ public class MyCustomView extends View implements OnTouchListener {
 		this.paintText.setStyle(Style.FILL);
 		this.paintText.setTextAlign(Align.CENTER);
 		this.paintText.setTextSize(30f);
+	}
+
+	private void getScreenMetrics(Context context) {
+
+		if (context != null) {
+			DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+			screenWidth = displayMetrics.widthPixels;
+			screenHeight = displayMetrics.heightPixels;
+		}
 	}
 
 	@Override
@@ -132,11 +145,15 @@ public class MyCustomView extends View implements OnTouchListener {
 
 		float resultX = (eventX - touchX) + x;
 		float resultY = (eventY - touchY) + y;
+		float resultXEnd = resultX + (radius * 2);
+		float resultYEnd = resultY + (radius * 2);
 
-		// Set the new coordinates of the CustomView
-		this.layout((int) resultX, (int) resultY,
-				(int) (resultX + (radius * 2)), (int) (resultY + (radius * 2)));
+		if (resultX >= 0 && resultY >= 0 && resultXEnd <= screenWidth && resultYEnd <= screenHeight) {
 
-		invalidate();
+			// Set the new coordinates of the CustomView
+			this.layout((int) resultX, (int) resultY, (int) resultXEnd, (int) resultYEnd);
+
+			invalidate();
+		}
 	}
 }
