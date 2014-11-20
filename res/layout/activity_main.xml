@@ -10,7 +10,7 @@
         android:id="@+id/myCustomView"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        custom:shape_color="@android:color/holo_green_light"
-        custom:text_color="@android:color/holo_red_light" />
+        custom:shape_color="@android:color/holo_blue_bright"
+        custom:text_color="@android:color/holo_purple" />
 
 </RelativeLayout>

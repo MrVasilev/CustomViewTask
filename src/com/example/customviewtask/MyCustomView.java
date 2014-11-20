@@ -41,7 +41,7 @@ public class MyCustomView extends View implements OnTouchListener {
 
 		final int allAttrsNum = attrsArr.getIndexCount();
 
-		for (int i = 0; i < allAttrsNum; ++i) {
+		for (int i = 0; i < allAttrsNum; i++) {
 
 			int attr = attrsArr.getIndex(i);
 
