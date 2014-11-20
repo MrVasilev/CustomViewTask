@@ -9,7 +9,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -113,6 +112,8 @@ public class MyCustomView extends View implements OnTouchListener {
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 
+		boolean result = true;
+
 		switch (event.getAction()) {
 
 		case MotionEvent.ACTION_DOWN:
@@ -122,17 +123,22 @@ public class MyCustomView extends View implements OnTouchListener {
 
 			invalidate();
 
-			return true;
+			result = true;
+
+			break;
 
 		case MotionEvent.ACTION_MOVE:
 
 			calculateCoordinates(event);
 
-			return true;
+			result = true;
+			break;
 
 		default:
-			return false;
+			break;
 		}
+
+		return result;
 	}
 
 	private void calculateCoordinates(MotionEvent event) {
