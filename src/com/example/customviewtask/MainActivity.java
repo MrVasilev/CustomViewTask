@@ -2,6 +2,7 @@ package com.example.customviewtask;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 public class MainActivity extends Activity {
 
@@ -15,6 +16,9 @@ public class MainActivity extends Activity {
 
 		mainLayout = (MyRelativeLayout) findViewById(R.id.mainLayout);
 		myCustomView = (MyCustomView) findViewById(R.id.myCustomView);
+		mainLayout.addView(new View(this));
+		mainLayout.addView(new View(this));
+		mainLayout.addView(new View(this));
 	}
 
 	@Override

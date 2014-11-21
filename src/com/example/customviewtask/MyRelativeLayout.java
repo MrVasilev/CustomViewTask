@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 public class MyRelativeLayout extends RelativeLayout {
@@ -18,13 +19,31 @@ public class MyRelativeLayout extends RelativeLayout {
 	public MyRelativeLayout(Context context) {
 		super(context);
 		getScreenMetrics(context);
-
 	}
 
 	public MyRelativeLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		getScreenMetrics(context);
+	}
 
+	@Override
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		super.onLayout(changed, l, t, r, b);
+
+		for (int i = 0; i < getChildCount(); i++) {
+
+			View child = getChildAt(i);
+
+			if (!(child instanceof MyCustomView)) {
+
+				child.layout(l, t, r, b);
+			}
+		}
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
 	/**

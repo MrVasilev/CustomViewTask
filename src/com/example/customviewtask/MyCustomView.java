@@ -8,10 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 
 public class MyCustomView extends View {
 
@@ -69,7 +66,6 @@ public class MyCustomView extends View {
 	}
 
 	private void init() {
-
 		this.paint = new Paint();
 		this.paintText = new Paint();
 		this.paint.setColor(Color.BLUE);
@@ -79,13 +75,12 @@ public class MyCustomView extends View {
 		this.paintText.setStyle(Style.FILL);
 		this.paintText.setTextAlign(Align.CENTER);
 		this.paintText.setTextSize(30f);
+		this.radius = Math.min(getHeight(), getWidth()) / 2;
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-
-		radius = Math.min(getHeight(), getWidth()) / 2;
 
 		coordinates = getX() + " : " + getY();
 
