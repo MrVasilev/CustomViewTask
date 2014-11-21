@@ -37,7 +37,7 @@ public class MyRelativeLayout extends RelativeLayout {
 		if (context != null) {
 			DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 			screenWidth = displayMetrics.widthPixels;
-			screenHeight = displayMetrics.heightPixels;
+			screenHeight = displayMetrics.heightPixels - 135;
 		}
 	}
 
@@ -95,19 +95,16 @@ public class MyRelativeLayout extends RelativeLayout {
 	 */
 	private void moveViewWithAnim(MotionEvent event) {
 
-		int size = getChildAt(0).getHeight();
+		int[] coords = getChangeCoords(event);
 
-		int childX = (int) getChildAt(0).getX();
-		int childY = (int) getChildAt(0).getY();
-
-		int x = (int) event.getX() - (getChildAt(0).getWidth() / 2);
-		int y = (int) event.getY() - (getChildAt(0).getHeight() / 2);
-
-		int childXEnd = childX + size;
-		int childYEnd = childY + size;
-
-		int xEnd = x + size;
-		int yEnd = y + size;
+		int x = coords[0];
+		int y = coords[1];
+		int childX = coords[2];
+		int childY = coords[3];
+		int xEnd = coords[4];
+		int yEnd = coords[5];
+		int childXEnd = coords[6];
+		int childYEnd = coords[7];
 
 		ObjectAnimator translationX = ObjectAnimator.ofInt(getChildAt(0), "Left", childX, x);
 		ObjectAnimator translationY = ObjectAnimator.ofInt(getChildAt(0), "Top", childY, y);
@@ -142,8 +139,6 @@ public class MyRelativeLayout extends RelativeLayout {
 			getChildAt(0).layout((int) resultX, (int) resultY, (int) resultXEnd, (int) resultYEnd);
 
 			getChildAt(0).invalidate();
-		} else {
-			int a = 5;
 		}
 	}
 
@@ -171,5 +166,63 @@ public class MyRelativeLayout extends RelativeLayout {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Change coordinates in this way to can not draw the CustomView outside of
+	 * bounds of screen
+	 * 
+	 * @param event
+	 * @return
+	 */
+	private int[] getChangeCoords(MotionEvent event) {
+
+		int size = getChildAt(0).getHeight();
+
+		int childX = (int) getChildAt(0).getX();
+		int childY = (int) getChildAt(0).getY();
+
+		int childXEnd = childX + size;
+		int childYEnd = childY + size;
+
+		int x = (int) event.getX() - (getChildAt(0).getWidth() / 2);
+		int y = (int) event.getY() - (getChildAt(0).getHeight() / 2);
+
+		int xEnd = x + size;
+		int yEnd = y + size;
+
+		if (xEnd > screenWidth) {
+
+			x -= (xEnd - screenWidth);
+			xEnd = screenWidth;
+		}
+
+		if (yEnd > screenHeight) {
+
+			y -= (yEnd - screenHeight);
+			yEnd = screenHeight;
+		}
+
+		if (x < 0) {
+
+			xEnd += -x;
+			x = 0;
+		}
+
+		if (y > screenHeight) {
+
+			y -= (yEnd - screenHeight);
+			yEnd = screenHeight;
+		}
+
+		if (y < 0) {
+
+			yEnd += -y;
+			y = 0;
+		}
+
+		int[] changedCoords = { x, y, childX, childY, xEnd, yEnd, childXEnd, childYEnd };
+
+		return changedCoords;
 	}
 }
