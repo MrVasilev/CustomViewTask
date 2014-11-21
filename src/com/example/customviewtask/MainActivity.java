@@ -15,7 +15,6 @@ public class MainActivity extends Activity {
 
 		mainLayout = (MyRelativeLayout) findViewById(R.id.mainLayout);
 		myCustomView = (MyCustomView) findViewById(R.id.myCustomView);
-		myCustomView.setOnTouchListener(myCustomView);
 	}
 
 	@Override
