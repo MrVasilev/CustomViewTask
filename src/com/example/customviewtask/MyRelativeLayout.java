@@ -11,6 +11,9 @@ public class MyRelativeLayout extends RelativeLayout {
 
 	private static final int MARGIN_TOP = 50;
 	private boolean isTouchIn;
+	private boolean isTouchInSmall;
+	private boolean isTouchInMiddle;
+	private boolean isTouchInBig;
 	private float touchX;
 	private float touchY;
 	private int screenWidth;
@@ -18,6 +21,7 @@ public class MyRelativeLayout extends RelativeLayout {
 	private MyCustomView customView1;
 	private MyCustomView customView2;
 	private MyCustomView customView3;
+	private MyCustomView lastTappedCustomView;
 
 	public MyRelativeLayout(Context context) {
 		super(context);
@@ -39,6 +43,7 @@ public class MyRelativeLayout extends RelativeLayout {
 		addView(customView1);
 		addView(customView2);
 		addView(customView3);
+		lastTappedCustomView = customView1;
 	}
 
 	@Override
@@ -103,12 +108,23 @@ public class MyRelativeLayout extends RelativeLayout {
 
 		case MotionEvent.ACTION_DOWN:
 
-			isTouchIn = isTapCustomViewInside(event);
+			if (isTapCustomViewInside(event, customView1)) {
+				lastTappedCustomView = customView1;
+				isTouchIn = true;
+			} else if (isTapCustomViewInside(event, customView2)) {
+				lastTappedCustomView = customView2;
+				isTouchIn = true;
+			} else if (isTapCustomViewInside(event, customView3)) {
+				lastTappedCustomView = customView3;
+				isTouchIn = true;
+			} else {
+				isTouchIn = false;
+			}
 
 			if (isTouchIn) {
 
-				float childX = getChildAt(0).getX();
-				float childY = getChildAt(0).getY();
+				float childX = lastTappedCustomView.getX();
+				float childY = lastTappedCustomView.getY();
 
 				touchX = event.getX() - childX;
 				touchY = event.getY() - childY;
@@ -159,10 +175,10 @@ public class MyRelativeLayout extends RelativeLayout {
 		int childXEnd = coords[6];
 		int childYEnd = coords[7];
 
-		ObjectAnimator translationX = ObjectAnimator.ofInt(getChildAt(0), "Left", childX, x);
-		ObjectAnimator translationY = ObjectAnimator.ofInt(getChildAt(0), "Top", childY, y);
-		ObjectAnimator translationX2 = ObjectAnimator.ofInt(getChildAt(0), "Right", childXEnd, xEnd);
-		ObjectAnimator translationY2 = ObjectAnimator.ofInt(getChildAt(0), "Bottom", childYEnd, yEnd);
+		ObjectAnimator translationX = ObjectAnimator.ofInt(lastTappedCustomView, "Left", childX, x);
+		ObjectAnimator translationY = ObjectAnimator.ofInt(lastTappedCustomView, "Top", childY, y);
+		ObjectAnimator translationX2 = ObjectAnimator.ofInt(lastTappedCustomView, "Right", childXEnd, xEnd);
+		ObjectAnimator translationY2 = ObjectAnimator.ofInt(lastTappedCustomView, "Bottom", childYEnd, yEnd);
 
 		translationX.start();
 		translationY.start();
@@ -180,7 +196,7 @@ public class MyRelativeLayout extends RelativeLayout {
 		float eventX = event.getX();
 		float eventY = event.getY();
 
-		float radius = getChildAt(0).getWidth() / 2;
+		float radius = lastTappedCustomView.getWidth() / 2;
 		float resultX = eventX - touchX;
 		float resultY = eventY - touchY;
 		float resultXEnd = resultX + (radius * 2);
@@ -189,9 +205,9 @@ public class MyRelativeLayout extends RelativeLayout {
 		if (resultX >= 0 && resultY >= 0 && resultXEnd <= screenWidth && resultYEnd <= screenHeight) {
 
 			// Set the new coordinates of the CustomView
-			getChildAt(0).layout((int) resultX, (int) resultY, (int) resultXEnd, (int) resultYEnd);
+			lastTappedCustomView.layout((int) resultX, (int) resultY, (int) resultXEnd, (int) resultYEnd);
 
-			getChildAt(0).invalidate();
+			lastTappedCustomView.invalidate();
 		}
 	}
 
@@ -201,17 +217,17 @@ public class MyRelativeLayout extends RelativeLayout {
 	 * @param event
 	 * @return
 	 */
-	private boolean isTapCustomViewInside(MotionEvent event) {
+	private boolean isTapCustomViewInside(MotionEvent event, MyCustomView child) {
 
 		if (event != null) {
 
 			float x = event.getX();
 			float y = event.getY();
-			float childX = getChildAt(0).getX();
-			float childY = getChildAt(0).getY();
-			float childRadius = getChildAt(0).getWidth() / 2;
-			float childXEnd = getChildAt(0).getX() + (childRadius * 2);
-			float childYEnd = getChildAt(0).getY() + (childRadius * 2);
+			float childX = child.getX();
+			float childY = child.getY();
+			float childRadius = child.getCurrentWidth() / 2;
+			float childXEnd = child.getX() + (childRadius * 2);
+			float childYEnd = child.getY() + (childRadius * 2);
 
 			if (x >= childX && x <= childXEnd && y >= childY && y <= childYEnd) {
 				return true;
@@ -230,16 +246,16 @@ public class MyRelativeLayout extends RelativeLayout {
 	 */
 	private int[] getChangeCoords(MotionEvent event) {
 
-		int size = getChildAt(0).getHeight();
+		int size = lastTappedCustomView.getHeight();
 
-		int childX = (int) getChildAt(0).getX();
-		int childY = (int) getChildAt(0).getY();
+		int childX = (int) lastTappedCustomView.getX();
+		int childY = (int) lastTappedCustomView.getY();
 
 		int childXEnd = childX + size;
 		int childYEnd = childY + size;
 
-		int x = (int) event.getX() - (getChildAt(0).getWidth() / 2);
-		int y = (int) event.getY() - (getChildAt(0).getHeight() / 2);
+		int x = (int) event.getX() - (lastTappedCustomView.getWidth() / 2);
+		int y = (int) event.getY() - (lastTappedCustomView.getHeight() / 2);
 
 		int xEnd = x + size;
 		int yEnd = y + size;
