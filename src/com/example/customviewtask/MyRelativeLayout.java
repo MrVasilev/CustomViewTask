@@ -11,9 +11,6 @@ public class MyRelativeLayout extends RelativeLayout {
 
 	private static final int MARGIN_TOP = 50;
 	private boolean isTouchIn;
-	private boolean isTouchInSmall;
-	private boolean isTouchInMiddle;
-	private boolean isTouchInBig;
 	private float touchX;
 	private float touchY;
 	private int screenWidth;
@@ -108,18 +105,7 @@ public class MyRelativeLayout extends RelativeLayout {
 
 		case MotionEvent.ACTION_DOWN:
 
-			if (isTapCustomViewInside(event, customView1)) {
-				lastTappedCustomView = customView1;
-				isTouchIn = true;
-			} else if (isTapCustomViewInside(event, customView2)) {
-				lastTappedCustomView = customView2;
-				isTouchIn = true;
-			} else if (isTapCustomViewInside(event, customView3)) {
-				lastTappedCustomView = customView3;
-				isTouchIn = true;
-			} else {
-				isTouchIn = false;
-			}
+			isTouchIn = isTapInSomeCustomView(event);
 
 			if (isTouchIn) {
 
@@ -154,6 +140,29 @@ public class MyRelativeLayout extends RelativeLayout {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Check if is tap on some of CustomViews and mark it like
+	 * "lastTappedCustomView"
+	 * 
+	 * @param event
+	 * @return
+	 */
+	private boolean isTapInSomeCustomView(MotionEvent event) {
+
+		if (isTapCustomViewInside(event, customView1)) {
+			lastTappedCustomView = customView1;
+			return true;
+		} else if (isTapCustomViewInside(event, customView2)) {
+			lastTappedCustomView = customView2;
+			return true;
+		} else if (isTapCustomViewInside(event, customView3)) {
+			lastTappedCustomView = customView3;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
