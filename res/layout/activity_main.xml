@@ -7,11 +7,15 @@
     android:layout_height="match_parent"
     tools:context="com.example.customviewtask.MainActivity" >
 
+    <!--
+    
     <com.example.customviewtask.MyCustomView
         android:id="@+id/myCustomView"
         android:layout_width="150dp"
         android:layout_height="150dp"
         custom:shape_color="@android:color/holo_blue_bright"
         custom:text_color="@android:color/holo_purple" />
+
+	-->
 
 </com.example.customviewtask.MyRelativeLayout>

@@ -16,6 +16,8 @@ public class MyCustomView extends View {
 	private Paint paintText;
 	private String coordinates;
 	private float radius;
+	private int currentWidth;
+	private int currentHeight;
 
 	public MyCustomView(Context context) {
 		super(context);
@@ -26,6 +28,14 @@ public class MyCustomView extends View {
 		super(context, attrs);
 		init();
 		checkAttrs(context, attrs);
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+		setCurrentWidth(widthMeasureSpec);
+		setCurrentHeight(heightMeasureSpec);
 	}
 
 	// Check for available attributes
@@ -87,5 +97,30 @@ public class MyCustomView extends View {
 		canvas.drawCircle(radius, radius, radius, paint);
 
 		canvas.drawText(coordinates, radius, radius, paintText);
+	}
+
+	public float getRadius() {
+		return radius;
+	}
+
+	public void setRadius(float radius) {
+		if (radius > 0)
+			this.radius = radius;
+	}
+
+	public int getCurrentWidth() {
+		return currentWidth;
+	}
+
+	public void setCurrentWidth(int currentWidth) {
+		this.currentWidth = currentWidth;
+	}
+
+	public int getCurrentHeight() {
+		return currentHeight;
+	}
+
+	public void setCurrentHeight(int currentHeight) {
+		this.currentHeight = currentHeight;
 	}
 }

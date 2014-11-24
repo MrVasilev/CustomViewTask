@@ -5,25 +5,40 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.RelativeLayout;
 
 public class MyRelativeLayout extends RelativeLayout {
 
+	private static final int MARGIN_TOP = 50;
 	private boolean isTouchIn;
 	private float touchX;
 	private float touchY;
 	private int screenWidth;
 	private int screenHeight;
+	private MyCustomView customView1;
+	private MyCustomView customView2;
+	private MyCustomView customView3;
 
 	public MyRelativeLayout(Context context) {
 		super(context);
+		createInnerViews(context);
 		getScreenMetrics(context);
 	}
 
 	public MyRelativeLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		createInnerViews(context);
 		getScreenMetrics(context);
+	}
+
+	private void createInnerViews(Context context) {
+		customView1 = new MyCustomView(context);
+		customView2 = new MyCustomView(context);
+		customView3 = new MyCustomView(context);
+
+		addView(customView1);
+		addView(customView2);
+		addView(customView3);
 	}
 
 	@Override
@@ -32,18 +47,37 @@ public class MyRelativeLayout extends RelativeLayout {
 
 		for (int i = 0; i < getChildCount(); i++) {
 
-			View child = getChildAt(i);
+			MyCustomView child = (MyCustomView) getChildAt(i);
 
-			if (!(child instanceof MyCustomView)) {
+			int childWidth = child.getCurrentWidth();
+			int childHeight = child.getCurrentHeight();
 
-				child.layout(l, t, r, b);
-			}
+			int left = (getWidth() / 2) - (childWidth / 2);
+			int right = left + childWidth;
+			int top = (i == 0) ? 0 : ((childHeight * i) + MARGIN_TOP);
+			int bottom = top + childHeight;
+
+			child.layout(left, top, right, bottom);
 		}
 	}
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+		int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
+		int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
+
+		for (int i = 0; i < getChildCount(); i++) {
+
+			MyCustomView child = (MyCustomView) getChildAt(i);
+			int childWidth = parentWidth / (5 - i);
+			int childHeight = parentWidth / (5 - i);
+
+			child.measure(childWidth, childHeight);
+			child.setRadius(childWidth / 2);
+			child.invalidate();
+		}
 	}
 
 	/**
