@@ -10,6 +10,7 @@
     <string name="notification_back_label">This Activity was open from Notification and when you tap on the Back button should go to MainActivity.</string>
     <string name="dismiss_label">Dismiss</string>
     <string name="snooze_label">Snooze</string>
+    <string name="notify_time_label">Notification time : </string>
     <string name="dismissed_notification_toast">Notification was dismissed!</string>
     <string name="snoozed_notification_toast">Notification was snoozed!</string>
     <string name="title_activity_notification_result_back">NotificationResultBackActivity</string>

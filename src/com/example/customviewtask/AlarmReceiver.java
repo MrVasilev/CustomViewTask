@@ -10,6 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import com.example.customviewtask.Constants.NotificationStyles;
 
@@ -158,10 +159,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
-		builder.setContentTitle("Event tracker").setContentText("Event received")
-				.setSmallIcon(R.drawable.ic_stat_action_receipt);
+		Intent intent = new Intent(context, NotificationResultBackActivity.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-		//Create InboxStyle
+		builder.setContentTitle("Event tracker").setContentText("Event received")
+				.setSmallIcon(R.drawable.ic_stat_action_receipt).setContentIntent(pendingIntent);
+
+		// Create InboxStyle
 		NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
 		String[] events = { "First Item", "Second Item", "Another Item", "Move, move, move...", "Do not push me!",
@@ -177,17 +181,18 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 		// Moves the expanded layout object into the notification object.
 		builder.setStyle(inboxStyle);
-		
+
 		/**
 		 * If we want to add BigImage into Notification we should use this code
 		 * 
-		 * NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
-		 * Bitmap imageBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.notification_image);	
+		 * NotificationCompat.BigPictureStyle bigPictureStyle = new
+		 * NotificationCompat.BigPictureStyle(); Bitmap imageBitmap =
+		 * BitmapFactory.decodeResource(context.getResources(),
+		 * R.drawable.notification_image);
 		 * bigPictureStyle.bigPicture(imageBitmap);
 		 * 
 		 */
 
 		return builder.build();
 	}
-
 }
