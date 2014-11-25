@@ -109,8 +109,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 		final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
-		builder.setContentTitle("Pictures Download")
-				.setContentText("Download in progress")
+		builder.setContentTitle("Pictures Download").setContentText("Download in progress")
 				.setSmallIcon(R.drawable.ic_stat_action_get_app);
 
 		// Start a lengthy operation in a background thread
@@ -121,7 +120,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 				for (int i = 0; i <= 100; i += 5) {
 
-					// Set progress in Notification
+					// Set progress in Notification. If you do not know how long
+					// is the process, replace this row with
+					// "builder.setProgress(0, 0, true);"
 					builder.setProgress(100, i, false);
 
 					// Display the ProgressBar for the first time
