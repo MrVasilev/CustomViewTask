@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="15"
+        android:minSdkVersion="16"
         android:targetSdkVersion="19" />
 
     <application
@@ -21,6 +21,28 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".NotificationResultActivity"
+            android:label="@string/title_activity_notification_result" >
+        </activity>
+
+        <receiver android:name=".AlarmReceiver" >
+        </receiver>
+
+        <service
+            android:name=".PingService"
+            android:enabled="true"
+            android:label="@string/ping_service_name" >
+        </service>
+
+        <activity
+            android:name=".NotificationResultBackActivity"
+            android:label="@string/title_activity_notification_result_back"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
     </application>
 

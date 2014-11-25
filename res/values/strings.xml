@@ -2,7 +2,16 @@
 <resources>
 
     <string name="app_name">CustomViewTask</string>
+    <string name="ping_service_name">Ping Service</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_notification_result">NotificationResultActivity</string>
+    <string name="notification_label">This Activity was open from Notification!</string>
+    <string name="notification_back_label">This Activity was open from Notification and when you tap on the Back button should go to MainActivity.</string>
+    <string name="dismiss_label">Dismiss</string>
+    <string name="snooze_label">Snooze</string>
+    <string name="dismissed_notification_toast">Notification was dismissed!</string>
+    <string name="snoozed_notification_toast">Notification was snoozed!</string>
+    <string name="title_activity_notification_result_back">NotificationResultBackActivity</string>
 
 </resources>
