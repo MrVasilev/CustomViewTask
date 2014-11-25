@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
 		Calendar calendar = Calendar.getInstance();
 		Intent intent = new Intent(this, AlarmReceiver.class);
 
-		intent.putExtra("notification_type", Constants.NotificationStyles.WITH_PROGRESS_BAR);
+		intent.putExtra("notification_type", Constants.NotificationStyles.EXPANDED_LAYOUT);
 		pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), intervalSeconds,

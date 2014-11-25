@@ -42,7 +42,7 @@ public class PingService extends IntentService {
 				}
 			});
 
-			notificationManager.cancel(Constants.NOTIFICATION_ID);
+			notificationManager.cancel(Constants.NORMAL_NOTIFICATION_ID);
 
 		} else if (action.equals(Constants.ACTION_SNOOZE)) {
 
@@ -55,7 +55,7 @@ public class PingService extends IntentService {
 				}
 			});
 
-			notificationManager.cancel(Constants.NOTIFICATION_ID);
+			notificationManager.cancel(Constants.NORMAL_NOTIFICATION_ID);
 		}
 
 	}

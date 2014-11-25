@@ -32,12 +32,17 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 		case NORMAL:
 			notification = createNormalNotification(context, notificationTitle, notificationText);
-			notificationManager.notify(Constants.NOTIFICATION_ID, notification);
+			notificationManager.notify(Constants.NORMAL_NOTIFICATION_ID, notification);
 			break;
 
 		case BIG:
 			notification = createBigNotification(context, notificationTitle, notificationText, notificationBigText);
-			notificationManager.notify(Constants.NOTIFICATION_ID, notification);
+			notificationManager.notify(Constants.BIG_NOTIFICATION_ID, notification);
+			break;
+
+		case EXPANDED_LAYOUT:
+			notification = createExpandedNotification(context);
+			notificationManager.notify(Constants.EXPANDED_NOTIFICATION_ID, notification);
 			break;
 
 		case WITH_PROGRESS_BAR:
@@ -126,7 +131,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 					builder.setProgress(100, i, false);
 
 					// Display the ProgressBar for the first time
-					notificationManager.notify(Constants.NOTIFICATION_ID, builder.build());
+					notificationManager.notify(Constants.NORMAL_NOTIFICATION_ID, builder.build());
 
 					// Sleeps the thread, simulating an operation
 					// that takes time
@@ -144,9 +149,45 @@ public class AlarmReceiver extends BroadcastReceiver {
 				// When loop ends, update notification
 				builder.setContentText("Download complete");
 
-				notificationManager.notify(Constants.NOTIFICATION_ID, builder.build());
+				notificationManager.notify(Constants.PROGRESS_BAR_NOTIFICATION_ID, builder.build());
 			}
 		}).start();
+	}
+
+	private Notification createExpandedNotification(Context context) {
+
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+
+		builder.setContentTitle("Event tracker").setContentText("Event received")
+				.setSmallIcon(R.drawable.ic_stat_action_receipt);
+
+		//Create InboxStyle
+		NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+
+		String[] events = { "First Item", "Second Item", "Another Item", "Move, move, move...", "Do not push me!",
+				"This is the last item from all details..." };
+
+		// Sets a title for the Inbox in expanded layout
+		inboxStyle.setBigContentTitle("Event tracker details : ");
+
+		// Moves events into the expanded layout
+		for (int i = 0; i < events.length; i++) {
+			inboxStyle.addLine(events[i]);
+		}
+
+		// Moves the expanded layout object into the notification object.
+		builder.setStyle(inboxStyle);
+		
+		/**
+		 * If we want to add BigImage into Notification we should use this code
+		 * 
+		 * NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+		 * Bitmap imageBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.notification_image);	
+		 * bigPictureStyle.bigPicture(imageBitmap);
+		 * 
+		 */
+
+		return builder.build();
 	}
 
 }
