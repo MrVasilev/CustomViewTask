@@ -6,10 +6,10 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.example.customviewtask.Constants.NotificationStyles;
 
@@ -21,6 +21,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 
+		notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+
 		String notificationTitle = "Repeating notification";
 		String notificationText = "This is a test notification.";
 		String notificationBigText = "This notification was send from AlarmManager which send notifications in every 2 minutes. And this should be some long long text and so on...";
@@ -30,19 +32,21 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 		case NORMAL:
 			notification = createNormalNotification(context, notificationTitle, notificationText);
+			notificationManager.notify(Constants.NOTIFICATION_ID, notification);
 			break;
 
 		case BIG:
 			notification = createBigNotification(context, notificationTitle, notificationText, notificationBigText);
+			notificationManager.notify(Constants.NOTIFICATION_ID, notification);
+			break;
+
+		case WITH_PROGRESS_BAR:
+			createNotificationWithProgressBar(context);
 			break;
 
 		default:
 			break;
 		}
-
-		notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-
-		notificationManager.notify(Constants.NOTIFICATION_ID, notification);
 	}
 
 	private Notification createNormalNotification(Context context, String title, String text) {
@@ -99,6 +103,49 @@ public class AlarmReceiver extends BroadcastReceiver {
 		builder.setContentIntent(pendingIntent);
 
 		return builder.build();
+	}
+
+	private void createNotificationWithProgressBar(Context context) {
+
+		final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+
+		builder.setContentTitle("Pictures Download")
+				.setContentText("Download in progress")
+				.setSmallIcon(R.drawable.ic_stat_action_get_app);
+
+		// Start a lengthy operation in a background thread
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				for (int i = 0; i <= 100; i += 5) {
+
+					// Set progress in Notification
+					builder.setProgress(100, i, false);
+
+					// Display the ProgressBar for the first time
+					notificationManager.notify(Constants.NOTIFICATION_ID, builder.build());
+
+					// Sleeps the thread, simulating an operation
+					// that takes time
+					try {
+						// Sleep for 1 seconds
+						Thread.sleep(1 * 1000);
+
+					} catch (InterruptedException e) {
+						Log.d("TAG", "Sleep failure!");
+					}
+				}
+
+				// Removes the progress bar
+				builder.setProgress(0, 0, false);
+				// When loop ends, update notification
+				builder.setContentText("Download complete");
+
+				notificationManager.notify(Constants.NOTIFICATION_ID, builder.build());
+			}
+		}).start();
 	}
 
 }

@@ -39,17 +39,17 @@ public class MainActivity extends Activity {
 	 */
 	private void setRepeatNotification() {
 
-		int intervalSeconds = 10 * 1000;
+		int intervalSeconds = 120 * 1000;
 
 		alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
 		Calendar calendar = Calendar.getInstance();
 		Intent intent = new Intent(this, AlarmReceiver.class);
 
-		intent.putExtra("notification_type", Constants.NotificationStyles.NORMAL);
+		intent.putExtra("notification_type", Constants.NotificationStyles.WITH_PROGRESS_BAR);
 		pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis() + intervalSeconds, intervalSeconds,
+		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), intervalSeconds,
 				pendingIntent);
 	}
 

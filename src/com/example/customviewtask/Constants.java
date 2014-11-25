@@ -11,7 +11,7 @@ public class Constants {
 	public static final String PING_SERVICE_NAME = "com.example.customviewtask.PING_SERVICE_NAME";
 
 	public static enum NotificationStyles {
-		NORMAL, BIG
+		NORMAL, BIG, WITH_PROGRESS_BAR
 	};
 
 }
