@@ -6,6 +6,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.customviewtask.Constants.NotificationStyles;
@@ -45,10 +48,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 	private Notification createNormalNotification(Context context, String title, String text) {
 
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+		Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
 		builder.setSmallIcon(R.drawable.ic_stat_action_android);
 		builder.setContentTitle((title != null) ? title : "");
 		builder.setContentText((text != null) ? text : "");
+		builder.setSound(soundUri);
 		builder.setAutoCancel(true);
 
 		// Creates an Intent for the Activity
