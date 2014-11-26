@@ -2,13 +2,13 @@ package com.example.customviewtask;
 
 import java.util.Calendar;
 
-import com.example.customviewtask.Constants.NotificationStyles;
-
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.customviewtask.Constants.NotificationStyles;
 
 public class MainActivity extends Activity {
 
