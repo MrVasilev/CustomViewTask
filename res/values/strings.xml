@@ -14,5 +14,13 @@
     <string name="dismissed_notification_toast">Notification was dismissed!</string>
     <string name="snoozed_notification_toast">Notification was snoozed!</string>
     <string name="title_activity_notification_result_back">NotificationResultBackActivity</string>
+    <string name="normal_notify_title">Repeating notification</string>
+    <string name="normal_notify_text">This is a test notification.</string>
+    <string name="big_notify_title">Big notification</string>
+    <string name="big_notify_text">This notification was send from AlarmManager which send notifications in every 2 minutes. And this should be some long long text and so on</string>
+    <string name="extanded_notify_title">Event tracker</string>
+    <string name="extanded_notify_text">Event received</string>
+    <string name="progress_bar_notify_title">Pictures Download</string>
+    <string name="progress_bar_notify_text">Download in progress</string>
 
 </resources>

@@ -72,13 +72,21 @@ containing a value of this type.
     public static final class string {
         public static final int action_settings=0x7f050003;
         public static final int app_name=0x7f050000;
+        public static final int big_notify_text=0x7f050010;
+        public static final int big_notify_title=0x7f05000f;
         public static final int dismiss_label=0x7f050007;
         public static final int dismissed_notification_toast=0x7f05000a;
+        public static final int extanded_notify_text=0x7f050012;
+        public static final int extanded_notify_title=0x7f050011;
         public static final int hello_world=0x7f050002;
+        public static final int normal_notify_text=0x7f05000e;
+        public static final int normal_notify_title=0x7f05000d;
         public static final int notification_back_label=0x7f050006;
         public static final int notification_label=0x7f050005;
         public static final int notify_time_label=0x7f050009;
         public static final int ping_service_name=0x7f050001;
+        public static final int progress_bar_notify_text=0x7f050014;
+        public static final int progress_bar_notify_title=0x7f050013;
         public static final int snooze_label=0x7f050008;
         public static final int snoozed_notification_toast=0x7f05000b;
         public static final int title_activity_notification_result=0x7f050004;

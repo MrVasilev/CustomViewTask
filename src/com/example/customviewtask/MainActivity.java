@@ -2,6 +2,8 @@ package com.example.customviewtask;
 
 import java.util.Calendar;
 
+import com.example.customviewtask.Constants.NotificationStyles;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -46,11 +48,10 @@ public class MainActivity extends Activity {
 		Calendar calendar = Calendar.getInstance();
 		Intent intent = new Intent(this, AlarmReceiver.class);
 
-		intent.putExtra("notification_type", Constants.NotificationStyles.EXPANDED_LAYOUT);
+		intent.putExtra("notification_type", NotificationStyles.WITH_PROGRESS_BAR);
 		pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), intervalSeconds,
-				pendingIntent);
+		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), intervalSeconds, pendingIntent);
 	}
 
 	@Override
